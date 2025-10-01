@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>คลังเพลง ❣</title>
+    <link rel="shortcut icon" href="/components/image/favicon.png" type="image/png" />
+  </head>
+  <body class="bg-gray-200">
+    <!-- Sidebar -->
+    <div id="side-bar" class="fixed left-0 top-0 h-screen bg-gray-100 w-60 z-101 -translate-x-full transition-transform duration-200">
+      <aside class="flex-shrink-0 w-60 p-5">
+        <div class="flex items-center mb-5 gap-5 align-center">
+          <button id="menu-sidebar" class="hover:cursor-pointer text-2xl" type="button">☰</button>
+          <div class="w-10 h-10 b-transparent">
+            <img src="/components/image/logo-unscreen.gif" alt="this is logo" />
+          </div>
+        </div>
+        <nav class="flex flex-col space-y-4 gap-2 mr-5">
+          <span class="gap-5 flex items-center">
+            <i class="fi fi-sr-home"></i>
+            <a href="#">หน้าแรก</a>
+          </span>
+          <span class="gap-5 flex items-center">
+            <i class="fi fi-ss-user-add"></i>
+            <a href="#">การติดตาม</a>
+          </span>
+          <span class="gap-5 flex items-center">
+            <i class="fi fi-ss-music-alt"></i>
+            <a href="#">Youtube Musice</a>
+          </span>
+        </nav>
+        <footer class="mt-5 mr-5">© 2025 เพลงที่ชอบ</footer>
+      </aside>
+    </div>
+    <!-- end Sidebar -->
+
+    <!-- Navbar  -->
+    <div id="navbar" class="flex justify-between bg-gray-100 w-screen pt-4 pb-4 pr-5 items-center fixed top-0 z-100">
+      <div class="flex flex-row items-center ml-5 gap-5">
+        <button class="hover:cursor-pointer text-2xl" type="button" id="menu-navbar">☰</button>
+
+        <div class="flex items-center gap-2">
+          <div class="w-10 h-10 b-transparent">
+            <img src="/components/image/logo-unscreen.gif" alt="this is logo" />
+          </div>
+          <div class="hidden md:block">
+            <h1 class="text-base md:text-lg lg:text-xl">คลังเพลง</h1>
+          </div>
+        </div>
+      </div>
+      <!-- Search bar -->
+
+      <div class="hidden sm:flex justify-between items-center">
+        <input
+          type="text"
+          placeholder="Search..."
+          class="outline-none border sm:w-[250px] md:w-[300px] lg:w-[500px] focus:border-blue-400 focus:ring-1 focus:ring-blue-400 rounded-l-full px-4 py-1.5 border-gray-500"
+        />
+        <div class="ml-0 border border-l-0 border-gray-500 rounded-r-full px-4 py-1.5 hover:cursor-pointer">
+          <span><i class="fi fi-rr-search"></i></span>
+        </div>
+      </div>
+      <!--end Search bar -->
+
+      <!-- mobile search bar -->
+      <div id="mobile-search-bar" class="hidden sm:hidden opacity-0 transition-opacity duration-300 items-center gap-10 bg-gray-100 w-screen pt-4 pb-4 pr-5 pl-5 fixed top-0 z-110">
+        <span id="back-to-navbar" class="text-xl"><i class="fi fi-rr-angle-circle-left"></i></span>
+        <div class="flex items-center w-full max-w-[500px]">
+          <input type="text" placeholder="Search..." class="outline-none border flex-1 focus:border-blue-400 focus:ring-1 focus:ring-blue-400 rounded-l-full px-4 py-1.5 border-gray-500" />
+          <div class="ml-0 border border-l-0 border-gray-500 rounded-r-full px-4 py-1.5 hover:cursor-pointer">
+            <span><i class="fi fi-rr-search"></i></span>
+          </div>
+        </div>
+      </div>
+      <!--end mobile search bar -->
+
+      <!-- profile -->
+      <div class="flex items-center gap-5">
+        <!-- icon บนมือถือ -->
+        <div id="open-search-bar" class="block sm:hidden hover:cursor-pointer">
+          <span><i class="fi fi-rr-search"></i></span>
+        </div>
+
+        <!-- Profile กับ icon อื่นๆ -->
+        <a href="#"><i class="fi fi-sr-home"></i></a>
+        <a href="#"><i class="fi fi-ss-user-add"></i></a>
+        <i class="fi fi-ss-bells"></i>
+        <div class="rounded-full overflow-hidden w-10 h-10">
+          <img
+            class="w-full h-full object-cover"
+            src="https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt=""
+          />
+        </div>
+      </div>
+      <!--end profile -->
+    </div>
+    <!-- end Navbar  -->
+
+    <!-- content -->
+    <main>
+      <div class="grid gap-5 mt-20 grid-cols-[repeat(auto-fill,minmax(250px,1fr))] p-5">
+        <!-- card -->
+        <div class="max-h-[300px] rounded-2xl p-5 bg-gray-100 flex justify-center shadow-2xl transition-transform duration-100 hover:scale-105 cursor-pointer">
+          <div class="w-full max-w-[200px] max-h-[300px] text-center">
+            <img class="rounded-xl w-full" src="/components/image/song/s-1.jpg" alt="" />
+            <h1 class="pt-1 overflow-hidden whitespace-nowrap text-ellipsis">Christian Kuria - Too Good</h1>
+            <p class="text-sm text-gray-600">Christian Kuria</p>
+            <span class="flex justify-center items-center gap-2 pt-1">
+              <a href="#" class="hover:scale-120">
+                <img class="w-5 h-5" src="components/image/brands/spotify.png" alt="" />
+              </a>
+              <a href="https://www.youtube.com/watch?v=W7O03rIvP3w&list=RDW7O03rIvP3w&start_radio=1" class="hover:scale-120">
+                <img class="w-5 h-5" src="components/image/brands/youtube.png" alt="" />
+              </a>
+            </span>
+          </div>
+        </div>
+
+        <div class="max-h-[300px] rounded-2xl p-5 bg-gray-100 flex justify-center shadow-2xl transition-transform duration-100 hover:scale-105 cursor-pointer">
+          <div class="w-full max-w-[200px] max-h-[300px] text-center">
+            <img class="rounded-xl w-full" src="/components/image/song/landokmai.jpg" alt="" />
+            <h1 class="pt-1 overflow-hidden whitespace-nowrap text-ellipsis">LANDOKMAI - เพลงรักเพลงแรก (Blooming)</h1>
+            <p class="text-sm text-gray-600">LANDOKMAI</p>
+            <span class="flex justify-center items-center gap-2 pt-1">
+              <a href="#" class="hover:scale-120">
+                <img class="w-5 h-5" src="components/image/brands/spotify.png" alt="" />
+              </a>
+              <a href="https://www.youtube.com/watch?v=W7O03rIvP3w&list=RDW7O03rIvP3w&start_radio=1" class="hover:scale-120">
+                <img class="w-5 h-5" src="components/image/brands/youtube.png" alt="" />
+              </a>
+            </span>
+          </div>
+        </div>
+
+        <!--end card -->
+      </div>
+    </main>
+    <!-- end content -->
+
+    <!-- script -->
+    <script type="module" src="/src/main.js" defer></script>
+  </body>
+</html>
