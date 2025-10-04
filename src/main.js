@@ -1,4 +1,8 @@
+import { createApp } from "vue";
 import "../src/output.css";
+import App from "./app.vue";
+createApp(App).mount("#app");
+
 import "@flaticon/flaticon-uicons/css/solid/all.css";
 import "@flaticon/flaticon-uicons/css/regular/all.css";
 
