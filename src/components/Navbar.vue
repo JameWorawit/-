@@ -1,4 +1,8 @@
-<script setup></script>
+<!-- Navbar.vue -->
+<script setup lang="ts">
+import { defineEmits } from 'vue';
+const emit = defineEmits(['openModel']);
+</script>
 
 <template>
   <!-- Navbar  -->
@@ -50,10 +54,10 @@
 
       <!-- Profile กับ icon อื่นๆ -->
 
-      <a href="#" class="flex items-center justify-center gap-2 rounded-2xl bg-gray-300 px-3 py-1 transition hover:bg-gray-400">
+      <button @click="emit('openModel')" type="button" class="flex items-center justify-center gap-2 rounded-2xl bg-gray-300 px-3 py-1 transition hover:bg-gray-400">
         <span class="font-bold">+</span>
         <span class="font-medium">สร้าง</span>
-      </a>
+      </button>
       <a href="#" class="block max-sm:hidden"><i class="fi fi-ss-user-add"></i></a>
       <a href="#" class="block max-sm:hidden"><i class="fi fi-ss-bells"></i></a>
       <div class="h-10 w-10 overflow-hidden rounded-full">

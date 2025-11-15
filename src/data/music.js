@@ -1,0 +1,21 @@
+// API MUSIC LIST
+export const musicListData = [
+  {
+    id: 1,
+    title: 'Christian Kuria - Too Good',
+    artist: 'Christian Kuria',
+    image: '/thumbnail/Christian.jpg',
+    spotifyUrl: '',
+    youtubeUrl: '',
+    likes: 0,
+  },
+  {
+    id: 2,
+    title: 'Christian Kuria - Too Good',
+    artist: 'Christian Kuria',
+    image: '/thumbnail/landokmai.jpg',
+    spotifyUrl: '',
+    youtubeUrl: 'https://www.youtube.com/watch?v=W7O03rIvP3w&list=RDW7O03rIvP3w&start_radio=1',
+    likes: 0,
+  },
+];
