@@ -9,6 +9,8 @@ import { ref } from 'vue';
 import { musicListData } from './data/music.js';
 
 const showModel = ref(false);
+const showSideBar = ref(false);
+
 
 const musicList = ref(musicListData);
 
@@ -29,13 +31,15 @@ const handleLike = (id) =>{
 </script>
 
 <template>
-  <Navbar @open-model="showModel = true" />
-  <Sidebar />
+  <Navbar @open-model="showModel = true"  @open-side-bar="showSideBar = true"/>
+
+  <Sidebar v-model="showSideBar" />
+
   <main>
     <div class="mt-20 grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-5 p-5">
       <Card v-for="music in musicList" :key="music.id" :item="music" @increment-like="handleLike" />
     </div>
   </main>
-  <AddMusic :show="showModel" @close-model="showModel = false" @add-music="handleAddMusic" />
+  <AddMusic  v-model="showModel" @add-music="handleAddMusic" />
 
 </template>

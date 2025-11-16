@@ -1,14 +1,17 @@
 <!-- Navbar.vue -->
 <script setup lang="ts">
-import { defineEmits } from 'vue';
-const emit = defineEmits(['openModel']);
+import { ref } from 'vue';
+const emit = defineEmits(['openModel','openSideBar']);
+
+const isMobileSearchOpen = ref(false);
+
 </script>
 
 <template>
   <!-- Navbar  -->
   <div id="navbar" class="fixed top-0 z-10 flex w-full items-center justify-between bg-gray-100 pt-4 pr-5 pb-4">
     <div class="ml-5 flex flex-row items-center gap-5">
-      <button class="text-2xl hover:cursor-pointer" type="button" id="menu-navbar">☰</button>
+      <button @click="emit('openSideBar')" class="text-2xl hover:cursor-pointer" type="button" id="menu-navbar">☰</button>
 
       <div class="flex items-center gap-2">
         <div class="b-transparent h-10 w-10">
@@ -34,9 +37,12 @@ const emit = defineEmits(['openModel']);
     <!--end Search bar -->
 
     <!-- mobile search bar -->
-    <div id="mobile-search-bar" class="fixed top-0 z-50 hidden w-screen items-center gap-10 bg-gray-100 pt-4 pr-5 pb-4 pl-5 opacity-0 transition-opacity duration-300 sm:hidden">
-      <span id="back-to-navbar" class="text-xl"><i class="fi fi-rr-angle-circle-left"></i></span>
-      <div class="flex w-full max-w-[500px] items-center">
+    <div
+      :class="{ 'opacity-100': isMobileSearchOpen, 'pointer-events-none opacity-0': !isMobileSearchOpen }"
+      class="fixed top-0 z-50 flex w-screen items-center gap-10 bg-gray-100 pt-4 pr-5 pb-4 pl-5 transition-opacity duration-300 sm:hidden"
+    >
+      <span @click="isMobileSearchOpen = false" id="back-to-navbar" class="text-xl"><i class="fi fi-rr-angle-circle-left"></i></span>
+      <div class="flex w-full max-w-[500px] flex-row items-center">
         <input type="text" placeholder="Search..." class="flex-1 rounded-l-full border border-gray-500 px-4 py-1.5 outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400" />
         <div class="ml-0 rounded-r-full border border-l-0 border-gray-500 px-4 py-1.5 hover:cursor-pointer">
           <span><i class="fi fi-rr-search"></i></span>
@@ -48,7 +54,7 @@ const emit = defineEmits(['openModel']);
     <!-- profile -->
     <div class="flex items-center justify-center gap-5">
       <!-- icon บนมือถือ -->
-      <div id="open-search-bar" class="block hover:cursor-pointer sm:hidden">
+      <div @click="isMobileSearchOpen = true" class="block hover:cursor-pointer sm:hidden">
         <span><i class="fi fi-rr-search"></i></span>
       </div>
 

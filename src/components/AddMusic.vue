@@ -1,27 +1,32 @@
 <!-- AddMusic.vue -->
 <script setup>
-import { ref, defineProps, defineEmits, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
+
 const props = defineProps({
-  show: Boolean,
-  required: true,
+  modelValue: {
+    type: Boolean,
+    required: true,
+  },
 });
 
-const emit = defineEmits(['closeModel', 'addMusic']);
+const emit = defineEmits(['update:modelValue', 'addMusic']);
 
-const newMusic = ref({
+const createDefaultMusic = () => ({
   id: 0,
   title: '',
   artist: '',
-  image: '', //ต้องทำเซิฟไว้
+  image: null, 
   spotifyUrl: '',
   youtubeUrl: '',
   likes: 0,
 });
+const newMusic = ref(createDefaultMusic());
 
 const imagePreviewUrl = ref(null);
 
 const onFileChange = (event) => {
   const file = event.target.files[0]; // ดึงไฟล์ที่ผู้ใช้เลือก
+
   
   if (imagePreviewUrl.value) {
     URL.revokeObjectURL(imagePreviewUrl.value);
@@ -29,46 +34,56 @@ const onFileChange = (event) => {
 
   if (!file) {
     imagePreviewUrl.value = null;
-    newMusic.value.image = '';
+    newMusic.value.image = null;
     return;
   }
 
   imagePreviewUrl.value = URL.createObjectURL(file);
 
-  newMusic.value.image = `/thumbnail/${file.name}`;
+  newMusic.value.image = file;
 };
 
-watch(
-  () => props.show,
+const isFormValid = computed(() => {
+  return newMusic.value.title.trim() !== '' && newMusic.value.artist.trim() !== '';
+});
 
+watch(
+  () => props.modelValue,
   (newShowValue) => {
+    console.log(newShowValue)
     if (newShowValue === false) {
       if (imagePreviewUrl.value) {
         URL.revokeObjectURL(imagePreviewUrl.value);
         imagePreviewUrl.value = null;
       }
-
-      newMusic.value = { id: 0, title: '', artist: '', spotifyUrl: '', youtubeUrl: '', image: '', likes: 0 };
+      newMusic.value = createDefaultMusic();
     }
   }
 );
 
 const handleSubmit = () => {
   emit('addMusic', { ...newMusic.value, id: Date.now() });
-  emit('closeModel');
+  emit('update:modelValue', false);
 };
 </script>
 <template>
-  <div v-if="props.show" class="fixed inset-0 flex items-center justify-center backdrop-blur-2xl">
+  <div v-if="props.modelValue" class="fixed inset-0 flex items-center justify-center backdrop-blur-2xl">
     <div class="flex h-fit w-fit flex-col items-center justify-center gap-3 rounded-sm bg-gray-100 p-8">
       <h2 class="text-lg font-bold">เพิ่มเพลง</h2>
 
       <form @submit.prevent="handleSubmit" class="flex w-[30rem] flex-col flex-wrap items-start justify-center gap-y-3 rounded-sm bg-white p-8">
         <label class="text-sm font-bold" for="title">ชือเพลง</label>
-        <input class="bg-white-200 w-full rounded-sm border border-gray-300 p-2 focus:outline-2 focus:outline-blue-500" type="text" v-model="newMusic.title" id="title" placeholder="ฟ้า" />
+        <input class="bg-white-200 w-full rounded-sm border border-gray-300 p-2 focus:outline-2 focus:outline-blue-500" type="text" v-model="newMusic.title" id="title" placeholder="ฟ้า" required />
 
         <label class="text-sm font-bold" for="artist">ชื่อศิลปิน</label>
-        <input class="bg-white-200 w-full rounded-sm border border-gray-300 p-2 focus:outline-2 focus:outline-blue-500" type="text" v-model="newMusic.artist" id="artist" placeholder="Landokmai" />
+        <input
+          class="bg-white-200 w-full rounded-sm border border-gray-300 p-2 focus:outline-2 focus:outline-blue-500"
+          type="text"
+          v-model="newMusic.artist"
+          id="artist"
+          placeholder="Landokmai"
+          required
+        />
 
         <label class="text-sm font-bold" for="image">เพิ่มรูป</label>
         <input class="bg-white-200 w-full rounded-sm border border-gray-300 p-2 focus:outline-2 focus:outline-blue-500" type="file" @change="onFileChange" id="image" accept="image/*" />
@@ -95,8 +110,10 @@ const handleSubmit = () => {
         />
 
         <div class="flex gap-10">
-          <button class="flex h-5 w-full items-center rounded-sm bg-emerald-500 p-5" type="submit">บันทึก</button>
-          <button @click="emit('closeModel')" type="button" class="flex h-5 w-fit items-center rounded-sm bg-red-500 p-5">ปิด</button>
+          <button :class="{ 'bg-emerald-500': isFormValid, 'cursor-not-allowed bg-gray-500': !isFormValid }" class="flex h-5 w-full items-center rounded-sm p-5" type="submit" :disabled="!isFormValid">
+            บันทึก
+          </button>
+          <button @click="emit('update:modelValue', false)" type="button" class="flex h-5 w-fit items-center rounded-sm bg-red-500 p-5">ปิด</button>
         </div>
       </form>
     </div>

@@ -1,6 +1,4 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue';
-
 const props = defineProps({
   item: {
     type: Object,
@@ -17,7 +15,7 @@ const emit = defineEmits(['incrementLike']);
     <div class="max-h-[300px] w-full max-w-[200px] text-center">
       <img :src="item.image" :alt="item.title" class="w-full rounded-xl" />
       <h1 class="overflow-hidden pt-1 text-ellipsis whitespace-nowrap">{{ item.title }}</h1>
-   
+
       <p class="text-sm text-gray-600">{{ item.artist }}</p>
       <div class="flex items-center justify-center gap-2 pt-1">
         <a v-if="item.spotifyUrl" :href="item.spotifyUrl" target="_blank" class="hover:scale-120">

@@ -1,9 +1,20 @@
+<script setup>
+const props = defineProps({
+  modelValue: {
+    type: Boolean,
+    required: true,
+  },
+});
+
+const emit = defineEmits(['update:modelValue'])
+</script>
 <template>
   <!-- Sidebar -->
-  <div id="side-bar" class="fixed top-0 left-0 z-20 h-screen w-60 -translate-x-full bg-gray-100 transition-transform duration-200">
+
+  <div :class="{ '-translate-x-full': !modelValue, '-translate-x-0': modelValue }" class="fixed top-0 left-0 z-20 h-screen w-60  bg-gray-100 transition-transform duration-200">
     <aside class="w-60 flex-shrink-0 p-5">
       <div class="align-center mb-5 flex items-center gap-5">
-        <button id="menu-sidebar" class="text-2xl hover:cursor-pointer" type="button">☰</button>
+        <button @click="emit('update:modelValue',false)" id="menu-sidebar" class="text-2xl hover:cursor-pointer" type="button">☰</button>
         <div class="h-10 w-10 border-transparent">
           <a href="/index.html"><img src="/image/logo-unscreen.gif" alt="this is logo" /></a>
         </div>
