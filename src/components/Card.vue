@@ -19,13 +19,13 @@ const emit = defineEmits(['incrementLike']);
       <p class="text-sm text-gray-600">{{ item.artist }}</p>
       <div class="flex items-center justify-center gap-2 pt-1">
         <a v-if="item.spotifyUrl" :href="item.spotifyUrl" target="_blank" class="hover:scale-120">
-          <img class="h-5 w-5" src="/brands/spotify.png" alt="" />
+          <img class="h-5 w-5" src="@/assets/brands/spotify.png" alt="" />
         </a>
         <a v-if="item.youtubeUrl" :href="item.youtubeUrl" target="_blank" class="hover:scale-120">
-          <img class="h-5 w-5" src="/brands/youtube.png" alt="" />
+          <img class="h-5 w-5" src="@/assets/brands/youtube.png" alt="" />
         </a>
         <a href="#" class="flex flex-row items-center gap-1">
-          <img @click.prevent="emit('incrementLike', item.id)" class="h-5 w-5 transition hover:scale-125 active:scale-100" src="/brands/favourite.png" alt="favourite" />
+          <img @click.prevent="emit('incrementLike', item.id)" class="h-5 w-5 transition hover:scale-125 active:scale-100" src="@/assets/brands/favourite.png" alt="favourite" />
           <span class="inline-block w-2 text-center">{{ item.likes }}</span>
         </a>
       </div>

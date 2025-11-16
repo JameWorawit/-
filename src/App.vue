@@ -1,12 +1,14 @@
 <!-- App.vue -->
 <script setup>
-import Navbar from './components/Navbar.vue';
-import Sidebar from './components/Sidebar.vue';
-import Card from './components/Card.vue';
-import AddMusic from './components/AddMusic.vue';
+import Navbar from '@/components/Navbar.vue';
+import Sidebar from '@/components/Sidebar.vue';
+import Card from '@/components/Card.vue';
+import AddMusic from '@/components/AddMusic.vue';
+import test from './components/test.vue';
 
 import { ref } from 'vue';
-import { musicListData } from './data/music.js';
+import { musicListData } from '@/data/music.js';
+
 
 const showModel = ref(false);
 const showSideBar = ref(false);
@@ -16,7 +18,7 @@ const musicList = ref(musicListData);
 
 const handleAddMusic = (newMusic) => {
   if(!newMusic){
-    console.error("ไม่ได้ข้อมูลอะ")
+    console.error("400 Bad Request")
     return
   }
   musicList.value.unshift(newMusic);
@@ -40,6 +42,8 @@ const handleLike = (id) =>{
       <Card v-for="music in musicList" :key="music.id" :item="music" @increment-like="handleLike" />
     </div>
   </main>
+  
   <AddMusic  v-model="showModel" @add-music="handleAddMusic" />
+  <test/>
 
 </template>

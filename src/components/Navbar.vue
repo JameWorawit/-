@@ -15,7 +15,7 @@ const isMobileSearchOpen = ref(false);
 
       <div class="flex items-center gap-2">
         <div class="b-transparent h-10 w-10">
-          <a href="#"><img src="/image/logo-unscreen.gif" alt="this is logo" /></a>
+          <a href="#"><img src="@/assets/image/logo-unscreen.gif" alt="this is logo" /></a>
         </div>
         <div class="hidden md:block">
           <h1 class="text-base md:text-lg">คลังเพลง</h1>
