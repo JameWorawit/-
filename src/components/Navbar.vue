@@ -1,7 +1,7 @@
 <!-- Navbar.vue -->
 <script setup lang="ts">
 import { ref } from 'vue';
-const emit = defineEmits(['openModel','openSideBar']);
+const emit = defineEmits(['openModelCreateCard','openSideBar']);
 
 const isMobileSearchOpen = ref(false);
 
@@ -13,14 +13,16 @@ const isMobileSearchOpen = ref(false);
     <div class="ml-5 flex flex-row items-center gap-5">
       <button @click="emit('openSideBar')" class="text-2xl hover:cursor-pointer" type="button" id="menu-navbar">☰</button>
 
+      <router-link to="/">
       <div class="flex items-center gap-2">
-        <div class="b-transparent h-10 w-10">
-          <a href="#"><img src="@/assets/image/logo-unscreen.gif" alt="this is logo" /></a>
+          <div class="b-transparent h-10 w-10">
+            <a href="#"><img src="@/assets/image/logo-unscreen.gif" alt="this is logo" /></a>
+          </div>
+          <div class="hidden md:block">
+            <h1 class="text-base md:text-lg">คลังเพลง</h1>
+          </div>
         </div>
-        <div class="hidden md:block">
-          <h1 class="text-base md:text-lg">คลังเพลง</h1>
-        </div>
-      </div>
+      </router-link>
     </div>
     <!-- Search bar -->
 
@@ -60,18 +62,21 @@ const isMobileSearchOpen = ref(false);
 
       <!-- Profile กับ icon อื่นๆ -->
 
-      <button @click="emit('openModel')" type="button" class="flex items-center justify-center gap-2 rounded-2xl bg-gray-300 px-3 py-1 transition hover:bg-gray-400">
+      <button @click="emit('openModelCreateCard')" type="button" class="flex items-center justify-center gap-2 rounded-2xl bg-gray-300 px-3 py-1 transition hover:bg-gray-400">
         <span class="font-bold">+</span>
+        <!-- สร้าง -->
         <span class="font-medium">สร้าง</span>
       </button>
       <a href="#" class="block max-sm:hidden"><i class="fi fi-ss-user-add"></i></a>
       <a href="#" class="block max-sm:hidden"><i class="fi fi-ss-bells"></i></a>
       <div class="h-10 w-10 overflow-hidden rounded-full">
+        <router-link to="/profile">
         <img
           class="h-full w-full object-cover"
           src="https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt=""
         />
+        </router-link>
       </div>
     </div>
     <!--end profile -->

@@ -1,149 +1,102 @@
 <script setup>
-import { ref, onMounted, nextTick } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 
-const API_URL = 'https://jsonplaceholder.typicode.com/comments';
+// 1. ข้อมูลสมมติ 50 อัน (Mock Data)
+// สร้าง array [Item 1, Item 2, ..., Item 50]
+const allItems = Array.from({ length: 50 }, (_, i) => `Card Item ${i + 1}`);
 
-const allComments = ref([]);
-const displayedChat = ref([]);
-const isLoading = ref(true);
-const chatBoxRef = ref(null);
+// 2. ข้อมูลที่จะโชว์จริง (เริ่มต้นแค่ 5 อัน)
+const displayedItems = ref(allItems.slice(0, 5));
 
-// 1. (ใหม่!)
-// สร้าง "สถานะ" เพื่อจำว่า user อยู่ล่างสุดหรือไม่
-// เราเริ่มที่ true (เริ่มแบบล็อคเลย)
-const isUserAtBottom = ref(true); 
+// 3. ตัวแปรสำหรับอ้างอิง "div ตัวล่อ" ที่อยู่ล่างสุด
+const sentinelRef = ref(null);
 
-let chatInterval = null;
-let currentIndex = 0;
+let observer = null;
 
-// 2. (แก้ไข)
-// ฟังก์ชันเลื่อนลง (จะถูกเรียก "เมื่อมีข้อความใหม่")
-async function scrollToBottom() {
-  await nextTick(); // รอ DOM อัปเดต
-  const chatBox = chatBoxRef.value;
-  if (!chatBox) return;
-
-  // เช็ก "สถานะ" ของเรา
-  // ถ้า user อยู่ล่างสุด (isUserAtBottom เป็น true)...
-  if (isUserAtBottom.value) {
-    // ...ก็เลื่อนลงไปให้สุด
-    chatBox.scrollTop = chatBox.scrollHeight;
-  }
-  // ถ้า isUserAtBottom เป็น false (แปลว่า user เลื่อนขึ้นไป)
-  // เราก็ไม่ต้องทำอะไรเลย ปล่อยให้เขาอ่านไป
+// ฟังก์ชันโหลดเพิ่ม
+function loadMore() {
+  console.log('เห็นตัวล่อแล้ว! กำลังโหลดเพิ่ม...');
+  
+  // จำลองความหน่วงนิดหน่อย (เหมือนโหลดจากเน็ต)
+  setTimeout(() => {
+    // คำนวณว่าตอนนี้มีกี่อันแล้ว
+    const currentLength = displayedItems.value.length;
+    console.log(currentLength)
+    // หยิบจากตระกร้าใหญ่ มาใส่ตระกร้าโชว์ เพิ่มอีก 5 อัน
+    const nextBatch = allItems.slice(currentLength, currentLength + 5);
+    
+    // เอาไปต่อท้าย
+    displayedItems.value.push(...nextBatch);
+    
+  }, 500); // หน่วงเวลา 0.5 วิ
 }
 
-// 3. (ใหม่!)
-// ฟังก์ชันนี้จะถูกเรียก "ทุกครั้งที่ user เลื่อนเมาส์" ในกล่องแชท
-function handleScroll() {
-  const chatBox = chatBoxRef.value;
-  if (!chatBox) return;
-
-  // คำนวณว่าตอนนี้เราอยู่ล่างสุดจริงหรือไม่ (เผื่อ buffer 20px)
-  const buffer = 200;
-  const isAtBottom = 
-    chatBox.scrollTop + chatBox.clientHeight >= chatBox.scrollHeight - buffer;
-
-  // อัปเดต "สถานะ" ตามการกระทำจริงของ user
-  // ถ้าเลื่อนลงสุด -> true, ถ้าเลื่อนขึ้น -> false
-  isUserAtBottom.value = isAtBottom;
-}
-
-// ฟังก์ชันเริ่มแชท (เหมือนเดิม)
-function startChatSimulation() {
-  chatInterval = setInterval(() => {
-    if (currentIndex < allComments.value.length) {
-      const nextComment = allComments.value[currentIndex];
-      
-      // จำกัด 10 ข้อความ (เหมือนเดิม)
-      displayedChat.value.push(nextComment);
-      if (displayedChat.value.length > 10) {
-        displayedChat.value.shift();
-      }
-      currentIndex++;
-      
-      // เรียกใช้ฟังก์ชันเลื่อนลง (ตัวที่แก้ไขแล้ว)
-      scrollToBottom();
-
-    } else {
-      clearInterval(chatInterval);
-      displayedChat.value.push({ id: 'end', email: 'System', body: '--- End of simulation ---' });
-      if (displayedChat.value.length > 10) {
-        displayedChat.value.shift();
-      }
+onMounted(() => {
+  // 4. สร้าง "ยาม" (IntersectionObserver)
+  observer = new IntersectionObserver((entries) => {
+    // entries คือสิ่งที่ยามเห็น (ในที่นี้มีตัวเดียว)
+    const entry = entries[0];
+    
+    // "isIntersecting" แปลว่า "โผล่เข้ามาในจอแล้วใช่ไหม?"
+    if (entry.isIntersecting) {
+      // ถ้าโผล่มาแล้ว ก็โหลดเพิ่มเลย!
+      loadMore();
     }
-  }, 100); // 2 วินาที
-}
+  });
 
-// onMounted (เหมือนเดิม)
-onMounted(async () => {
-  try {
-    const response = await fetch(API_URL);
-    allComments.value = await response.json();
-    startChatSimulation();
-
-    // บังคับเลื่อนลง 1 ครั้งตอนเริ่ม
-    await nextTick();
-    if(chatBoxRef.value) {
-      chatBoxRef.value.scrollTop = chatBoxRef.value.scrollHeight;
-    }
-
-  } catch (error) {
-    console.error('Failed to fetch comments:', error);
-  } finally {
-    isLoading.value = false;
+  // 5. สั่งยามให้เฝ้า "div ตัวล่อ"
+  if (sentinelRef.value) {
+    observer.observe(sentinelRef.value);
   }
+});
+
+// (Optional) ทำลายยามเมื่อปิดหน้าเว็บ (เพื่อคืนหน่วยความจำ)
+onUnmounted(() => {
+  if (observer) observer.disconnect();
 });
 </script>
 
 <template>
-  <div class="chat-container">
-    <h2>Live Chat Simulation (Sticky Lock)</h2>
+  <div class="container">
+    <h1>Infinite Scroll / Lazy Load</h1>
     
-    <div 
-      class="chat-box" 
-      ref="chatBoxRef"
-      @scroll="handleScroll" 
-    >
-      
-      <div v-if="isLoading">Fetching comments...</div>
-
-      <div 
-        v-for="chat in displayedChat" 
-        :key="chat.id" 
-        class="chat-message"
-      >
-        <strong>{{ chat.email }}:</strong> 
-        <p>{{ chat.body }}</p>
-      </div>
-
+    <div v-for="item in displayedItems" :key="item" class="card">
+      {{ item }}
     </div>
+
+    <div ref="sentinelRef" class="loading-trigger">
+      <span v-if="displayedItems.length < allItems.length">
+        Loading more...
+      </span>
+      <span v-else>
+        -- หมดแล้วจ้า --
+      </span>
+    </div>
+
   </div>
 </template>
 
 <style>
-/* (ใช้ CSS เดิมได้เลย) */
-.chat-box {
-  border: 1px solid #ccc;
+.container {
+  height: 400px; /* จำกัดความสูง */
+  overflow-y: auto; /* ให้มี scrollbar */
+  border: 2px solid #333;
+  padding: 20px;
+}
+
+.card {
+  background: #f0f0f0;
+  padding: 20px;
+  margin-bottom: 15px;
   border-radius: 8px;
-  height: 400px;
-  overflow-y: auto; 
-  padding: 10px;
-  background-color: #f9f9f9;
-  scroll-behavior: smooth; /* เพิ่มอันนี้เพื่อให้เลื่อนนุ่มนวล */
+  font-size: 1.2rem;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-.chat-message {
-  margin-bottom: 12px;
-  background-color: #fff;
-  padding: 8px 12px;
-  border-radius: 6px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-.chat-message strong {
-  color: #007bff;
-  font-size: 0.9em;
-}
-.chat-message p {
-  margin: 4px 0 0;
+
+.loading-trigger {
+  text-align: center;
+  padding: 20px;
+  color: #888;
 }
 </style>

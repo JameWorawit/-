@@ -3,13 +3,13 @@
 import { computed, ref, watch } from 'vue';
 
 const props = defineProps({
-  modelValue: {
+  showModel: {
     type: Boolean,
     required: true,
   },
 });
 
-const emit = defineEmits(['update:modelValue', 'addMusic']);
+const emit = defineEmits(['showModel', 'addMusic']);
 
 const createDefaultMusic = () => ({
   id: 0,
@@ -41,6 +41,7 @@ const onFileChange = (event) => {
   imagePreviewUrl.value = URL.createObjectURL(file);
 
   newMusic.value.image = file;
+
 };
 
 const isFormValid = computed(() => {
@@ -48,9 +49,8 @@ const isFormValid = computed(() => {
 });
 
 watch(
-  () => props.modelValue,
+  () => props.showModel,
   (newShowValue) => {
-    console.log(newShowValue)
     if (newShowValue === false) {
       if (imagePreviewUrl.value) {
         URL.revokeObjectURL(imagePreviewUrl.value);
@@ -63,11 +63,11 @@ watch(
 
 const handleSubmit = () => {
   emit('addMusic', { ...newMusic.value, id: Date.now() });
-  emit('update:modelValue', false);
+  emit('showModel', false);
 };
 </script>
 <template>
-  <div v-if="props.modelValue" class="fixed inset-0 flex items-center justify-center backdrop-blur-2xl">
+  <div v-if="props.showModel" class="fixed inset-0 flex items-center justify-center backdrop-blur-2xl">
     <div class="flex h-fit w-fit flex-col items-center justify-center gap-3 rounded-sm bg-gray-100 p-8">
       <h2 class="text-lg font-bold">เพิ่มเพลง</h2>
 
@@ -110,10 +110,10 @@ const handleSubmit = () => {
         />
 
         <div class="flex gap-10">
+          <button @click="emit('showModel', false)" type="button" class="flex h-5 w-fit items-center rounded-sm bg-red-500 p-5">ปิด</button>
           <button :class="{ 'bg-emerald-500': isFormValid, 'cursor-not-allowed bg-gray-500': !isFormValid }" class="flex h-5 w-full items-center rounded-sm p-5" type="submit" :disabled="!isFormValid">
             บันทึก
           </button>
-          <button @click="emit('update:modelValue', false)" type="button" class="flex h-5 w-fit items-center rounded-sm bg-red-500 p-5">ปิด</button>
         </div>
       </form>
     </div>
