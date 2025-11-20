@@ -15,7 +15,7 @@ const createDefaultMusic = () => ({
   id: 0,
   title: '',
   artist: '',
-  image: null, 
+  image: null,
   spotifyUrl: '',
   youtubeUrl: '',
   likes: 0,
@@ -27,7 +27,6 @@ const imagePreviewUrl = ref(null);
 const onFileChange = (event) => {
   const file = event.target.files[0]; // ดึงไฟล์ที่ผู้ใช้เลือก
 
-  
   if (imagePreviewUrl.value) {
     URL.revokeObjectURL(imagePreviewUrl.value);
   }
@@ -41,7 +40,6 @@ const onFileChange = (event) => {
   imagePreviewUrl.value = URL.createObjectURL(file);
 
   newMusic.value.image = file;
-
 };
 
 const isFormValid = computed(() => {
@@ -109,9 +107,9 @@ const handleSubmit = () => {
           placeholder="https://www.youtube.com/watch?v=74cOUSKXMz0&t=4902s"
         />
 
-        <div class="flex gap-10">
-          <button @click="emit('showModel', false)" type="button" class="flex h-5 w-fit items-center rounded-sm bg-red-500 p-5">ปิด</button>
-          <button :class="{ 'bg-emerald-500': isFormValid, 'cursor-not-allowed bg-gray-500': !isFormValid }" class="flex h-5 w-full items-center rounded-sm p-5" type="submit" :disabled="!isFormValid">
+        <div class="mt-4 flex w-full justify-end gap-4">
+          <button @click="emit('showModel', false)" type="button" class="flex h-10 px-6 items-center rounded-sm bg-red-500  text-white p-5">ปิด</button>
+          <button :class="{ 'bg-emerald-500': isFormValid, 'cursor-not-allowed bg-gray-500': !isFormValid }" class="flex h-10 px-6 items-center rounded-sm p-5 text-white" type="submit" :disabled="!isFormValid">
             บันทึก
           </button>
         </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="flex min-h-screen w-full items-start justify-center pt-10">
     <div class="w-full max-w-2xl rounded-lg bg-white p-8 shadow-lg">
-      <div class="flex justify-center mb-2">
+      <div class="mb-2 flex justify-center">
         <div class="h-40 w-40 overflow-hidden rounded-full">
           <img
             class="h-full w-full object-cover"
